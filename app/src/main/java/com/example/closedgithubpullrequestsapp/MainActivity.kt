@@ -4,16 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.closedgithubpullrequestsapp.adapter.ClosedPullRequestAdapter
 import com.example.closedgithubpullrequestsapp.databinding.ActivityMainBinding
-import com.example.closedgithubpullrequestsapp.di.DaggerApiComponent
 import com.example.closedgithubpullrequestsapp.viewmodel.ClosedPullRequestViewModel
-import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,12 +50,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpObservables() {
-       viewModel.pullRequests.observe(this, Observer { closedPullRequest->
+       viewModel.pullRequests.observe(this,{ closedPullRequest->
             if(!closedPullRequest.isNullOrEmpty()){
                 pullRequestAdapter.updatePullRequestList(closedPullRequest)
             }
        })
-       viewModel.error.observe(this, Observer { error->
+       viewModel.error.observe(this,{ error->
            if(error) {
                mainView?.errorTextView?.visibility = View.VISIBLE
            }
@@ -68,7 +64,7 @@ class MainActivity : AppCompatActivity() {
            }
        })
 
-       viewModel.loading.observe(this, Observer { loading->
+       viewModel.loading.observe(this,{ loading->
            if(loading) {
                mainView?.loadingView?.visibility = View.VISIBLE
                mainView?.refresh?.isEnabled=false

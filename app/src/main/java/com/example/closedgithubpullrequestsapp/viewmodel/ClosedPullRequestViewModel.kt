@@ -2,7 +2,6 @@ package com.example.closedgithubpullrequestsapp.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.closedgithubpullrequestsapp.di.DaggerApiComponent
 import com.example.closedgithubpullrequestsapp.model.ClosedPullRequestData
@@ -10,7 +9,7 @@ import com.example.closedgithubpullrequestsapp.model.PullRequestApiInterface
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class ClosedPullRequestViewModel() : ViewModel() {
+class ClosedPullRequestViewModel: ViewModel() {
 
     @Inject
     lateinit  var pullRequestApiInterface: PullRequestApiInterface
