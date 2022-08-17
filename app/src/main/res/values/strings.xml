@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ClosedGitHubPullRequestsApp</string>
+    <string name="an_error_occurred_while_loading_data">An error occurred while loading Data.</string>
+    <string name="reload">Reload</string>
+</resources>

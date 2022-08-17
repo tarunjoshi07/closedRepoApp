@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="an_error_occurred_while_loading_data">An error occurred while loading Data.</string>
+    <string name="reload">Reload</string>
+</resources>
