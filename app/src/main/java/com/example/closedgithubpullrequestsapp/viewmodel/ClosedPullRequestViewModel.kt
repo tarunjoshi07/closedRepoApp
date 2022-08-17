@@ -1,5 +1,6 @@
 package com.example.closedgithubpullrequestsapp.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,6 +8,7 @@ import com.example.closedgithubpullrequestsapp.di.DaggerApiComponent
 import com.example.closedgithubpullrequestsapp.model.ClosedPullRequestData
 import com.example.closedgithubpullrequestsapp.model.PullRequestApiInterface
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 class ClosedPullRequestViewModel: ViewModel() {
@@ -28,15 +30,22 @@ class ClosedPullRequestViewModel: ViewModel() {
     }
 
      private suspend fun fetchPullRequest() {
-        loading.postValue(true)
-        val result=pullRequestApiInterface.getPullRequest()
-        if(result.isSuccessful && result.body()!=null){
-            pullRequests.postValue(result.body())
-            loading.postValue(false)
-        }
-        else{
-            error.postValue(true)
-            loading.postValue(false)
-        }
+         try {
+             loading.postValue(true)
+             val result=pullRequestApiInterface.getPullRequest()
+             if(result.isSuccessful && result.body()!=null){
+                 pullRequests.postValue(result.body())
+                 loading.postValue(false)
+             }
+             else{
+                 error.postValue(true)
+                 loading.postValue(false)
+             }
+         }
+         catch (e:Throwable){
+             error.postValue(true)
+             loading.postValue(false)
+             Log.e("ErrorData",e.toString())
+         }
     }
 }
