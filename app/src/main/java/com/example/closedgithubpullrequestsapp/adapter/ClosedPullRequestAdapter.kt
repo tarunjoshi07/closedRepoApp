@@ -3,18 +3,18 @@ package com.example.closedgithubpullrequestsapp.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.RecyclerView
+import com.example.closedgithubpullrequestsapp.DiffCallback
 import com.example.closedgithubpullrequestsapp.PullListRequestViewHolder
 import com.example.closedgithubpullrequestsapp.R
 import com.example.closedgithubpullrequestsapp.model.ClosedPullRequestData
 
 class ClosedPullRequestAdapter(private var pullRequest: ArrayList<ClosedPullRequestData>): RecyclerView.Adapter<PullListRequestViewHolder>() {
 
-    fun updatePullRequestList(newPullRequest: List<ClosedPullRequestData>) {
-        pullRequest.clear()
-        pullRequest.addAll(newPullRequest)
-        notifyDataSetChanged()
-    }
+    private val differCallback= DiffCallback()
+
+    val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = PullListRequestViewHolder(
         DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_list_view, parent, false)
@@ -22,8 +22,8 @@ class ClosedPullRequestAdapter(private var pullRequest: ArrayList<ClosedPullRequ
     )
 
     override fun onBindViewHolder(holder: PullListRequestViewHolder, position: Int) {
-        holder.bind(pullRequest[position])
+        holder.bind(differ.currentList[position])
     }
 
-    override fun getItemCount() = pullRequest.size
+    override fun getItemCount() = differ.currentList.size
 }

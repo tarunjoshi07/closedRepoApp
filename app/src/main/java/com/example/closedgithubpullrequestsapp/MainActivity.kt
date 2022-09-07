@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.closedgithubpullrequestsapp.adapter.ClosedPullRequestAdapter
 import com.example.closedgithubpullrequestsapp.databinding.ActivityMainBinding
+import com.example.closedgithubpullrequestsapp.model.ClosedPullRequestData
 import com.example.closedgithubpullrequestsapp.viewmodel.ClosedPullRequestViewModel
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,10 +51,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateWidgetList(list: List<ClosedPullRequestData>) {
+        this.lifecycleScope.launch {
+            try {
+                pullRequestAdapter.differ.submitList(list)
+            }catch (e:Exception){
+                //do nothing
+            }
+        }
+    }
+
     private fun setUpObservables() {
        viewModel.pullRequests.observe(this,{ closedPullRequest->
             if(!closedPullRequest.isNullOrEmpty()){
-                pullRequestAdapter.updatePullRequestList(closedPullRequest)
+                updateWidgetList(closedPullRequest)
             }
        })
        viewModel.error.observe(this,{ error->
